@@ -19,25 +19,19 @@ grad = zeros(size(theta));
 %               derivatives of the cost w.r.t. each parameter in theta
 
 
-Xtheta = X * theta;
-for i = 1:m,
-  z = Xtheta(i);
-  J += -y(i) * log(sigmoid(z)) - (1 - y(i)) * log(1 - sigmoid(z));
-end
+sigmoidXTheta = sigmoid(X * theta);
+J = sum(-y .* log(sigmoidXTheta) - (1 - y) .* log(1 - sigmoidXTheta));
 J /= m;
+J += sum(theta(2:end,:).^2) * lambda/(2*m);
 
-% regularize cost function
-regParam = 0;
-for i = 2:n,
-  regParam += theta(i)^2;
-end
-J += regParam * lambda/(2*m);
-
-grad = sum((sigmoid(Xtheta) - y) .* X)';
-grad /= m;
-
-% regularize gradient
-grad(2:n, :) += (lambda/m)*theta(2:n, :);
+temp = theta;
+temp(1) = 0;
+grad = (X' * (sigmoidXTheta - y))/m + temp * (lambda/m);
+%grad = sum((sigmoid(Xtheta) - y) .* X)';
+%grad /= m;
+%
+%% regularize gradient
+%grad(2:n, :) += (lambda/m)*theta(2:n, :);
 
 
 
