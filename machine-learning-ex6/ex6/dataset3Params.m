@@ -23,12 +23,30 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+% steps = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+% [p, q] = meshgrid(steps, steps);
+% pairs = [p(:), q(:)];
+% minError = 999999999;
+% idx = 0;
+% 
+% for i = 1:length(pairs)
+%   p = pairs(i, :);
+%   c = p(1); s = p(2);
+%   model = svmTrain(X, y, c, @(x1, x2) gaussianKernel(x1, x2, s)); 
+%   predictions = svmPredict(model, Xval);
+%   err = mean(double(predictions ~= yval));
+% 
+%   if err < minError
+%     minError = err;
+%     idx = i;
+%   end
+% end
 
+%C = pairs(idx, 1);
+%sigma = pairs(idx, 2);
 
-
-
-
-
+C= 1.0; 
+sigma = 0.1;
 % =========================================================================
 
 end
